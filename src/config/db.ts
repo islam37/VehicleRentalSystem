@@ -38,7 +38,7 @@ export const initDB = async (): Promise<void> => {
         type VARCHAR(30) NOT NULL Check (type IN ('car', 'bike', 'van', 'SUV')),
         registration_number VARCHAR(50) NOT NULL UNIQUE,
         daily_rent_price NUMERIC(10, 2) NOT NULL CHECK (daily_rent_price > 0),
-        availability_status BOOLEAN NOT NULL DEFAULT TRUE check (availability_status IN (TRUE, FALSE)),
+        availability_status VARCHAR(20) NOT NULL DEFAULT 'available' CHECK (availability_status IN ('available', 'booked')),
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
