@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response } from "express";
 import cors from "cors";
 import vehicleRouter from "./modules/vehicles/vehicle.route";
 import authRouter from "./modules/auth/auth.route";
+import userRouter from "./modules/user/user.route";
 
 const app: Express = express();
 
@@ -25,5 +26,6 @@ app.get("/", (req: Request, res: Response<ApiResponse>) => {
 // Vehicles API Route Mount
 app.use("/api/v1/vehicles", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 
 export default app;
