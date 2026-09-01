@@ -4,11 +4,17 @@ import vehicleRouter from "./modules/vehicles/vehicle.route";
 import authRouter from "./modules/auth/auth.route";
 import userRouter from "./modules/user/user.route";
 import bookingRouter from "./modules/booking/booking.route";
+import {
+  notFoundHandler,
+  globalErrorHandler,
+} from "./middlewares/error.middleware";
 
 const app: Express = express();
 
 // Middleware
 app.use(cors());
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 app.use(express.json());
 
 type ApiResponse = {
