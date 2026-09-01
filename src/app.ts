@@ -3,6 +3,7 @@ import cors from "cors";
 import vehicleRouter from "./modules/vehicles/vehicle.route";
 import authRouter from "./modules/auth/auth.route";
 import userRouter from "./modules/user/user.route";
+import bookingRouter from "./modules/booking/booking.route";
 
 const app: Express = express();
 
@@ -27,5 +28,6 @@ app.get("/", (req: Request, res: Response<ApiResponse>) => {
 app.use("/api/v1/vehicles", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/bookings", bookingRouter);
 
 export default app;
