@@ -13,8 +13,6 @@ const app: Express = express();
 
 // Middleware
 app.use(cors());
-app.use(notFoundHandler);
-app.use(globalErrorHandler);
 app.use(express.json());
 
 type ApiResponse = {
@@ -35,5 +33,7 @@ app.use("/api/v1/vehicles", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/bookings", bookingRouter);
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 export default app;
