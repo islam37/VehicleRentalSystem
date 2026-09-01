@@ -1,44 +1,58 @@
+# 🚗 Vehicle Rental System API
 
+A scalable, secure, and modern RESTful backend API for a Vehicle Rental Management platform, built with **Node.js**, **Express**, **TypeScript**, and **PostgreSQL (NeonDB)**.
 
-```
-# Vehicle Rental System API
+[![Live API](https://img.shields.io/badge/Live%20API-Visit-brightgreen)](https://vehicle-rental-system-lac-eight.vercel.app)
+[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-NeonDB-4169E1?logo=postgresql&logoColor=white)](https://neon.tech/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
 
-A scalable, secure, and modern RESTful backend API for a Vehicle Rental Management platform built with Node.js, Express, TypeScript, and PostgreSQL (NeonDB).
+**🔗 Live API URL:** [https://vehicle-rental-system-lac-eight.vercel.app](https://vehicle-rental-system-lac-eight.vercel.app)
 
-**Live API URL:** [https://vehicle-rental-system-lac-eight.vercel.app](https://vehicle-rental-system-lac-eight.vercel.app)
+---
+
+## 📑 Table of Contents
+
+- [Project Architecture & Design Pattern](#project-architecture--design-pattern)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Database Schema](#database-schema)
+- [Getting Started](#getting-started)
+- [API Endpoints Reference](#api-endpoints-reference)
 
 ---
 
 ## Project Architecture & Design Pattern
 
-The application follows a **Modular Layered Architecture (Controller-Service-Route Pattern)** to ensure separation of concerns, scalability, and maintainability:
+The application follows a **Modular Layered Architecture** (Controller–Service–Route Pattern) to ensure separation of concerns, scalability, and maintainability.
 
 ```text
 vehicle-rental-system/
 ├── dist/                     # Compiled JavaScript output
 ├── node_modules/             # Project dependencies
 ├── src/
-│   ├── config/               # Database and environment configurations
-│   │   └── db.ts             # PostgreSQL NeonDB pool connection
+│   ├── config/                  # Database and environment configurations
+│   │   └── db.ts                # PostgreSQL NeonDB pool connection
 │   │
-│   ├── middlewares/          # Custom Express middlewares
-│   │   ├── auth.middleware.ts   # JWT verification and role-based authorization
-│   │   └── error.middleware.ts  # Global error handling and 404 router
+│   ├── middlewares/              # Custom Express middlewares
+│   │   ├── auth.middleware.ts    # JWT verification and role-based authorization
+│   │   └── error.middleware.ts   # Global error handling and 404 router
 │   │
-│   ├── modules/              # Modular feature domains
-│   │   ├── auth/             # Authentication Module
+│   ├── modules/                  # Modular feature domains
+│   │   ├── auth/                 # Authentication Module
 │   │   │   ├── auth.controller.ts
 │   │   │   ├── auth.route.ts
 │   │   │   └── auth.service.ts
-│   │   ├── booking/          # Rental & Booking Module
+│   │   ├── booking/               # Rental & Booking Module
 │   │   │   ├── booking.controller.ts
 │   │   │   ├── booking.route.ts
 │   │   │   └── booking.service.ts
-│   │   ├── user/             # User Management Module
+│   │   ├── user/                  # User Management Module
 │   │   │   ├── user.controller.ts
 │   │   │   ├── user.route.ts
 │   │   │   └── user.service.ts
-│   │   └── vehicles/         # Vehicle Fleet Module
+│   │   └── vehicles/              # Vehicle Fleet Module
 │   │       ├── vehicle.controller.ts
 │   │       ├── vehicle.route.ts
 │   │       └── vehicle.service.ts
@@ -46,38 +60,47 @@ vehicle-rental-system/
 │   ├── app.ts                # Express application setup & middleware mounting
 │   └── server.ts             # Server initialization & entry point
 │
-├── .env                      # Local environment variables
+├── .env                       # Local environment variables
 ├── .gitignore
 ├── package.json
-├── tsconfig.json             # TypeScript compiler configurations
-├── vercel.json               # Vercel serverless deployment setup
+├── tsconfig.json               # TypeScript compiler configurations
+├── vercel.json                 # Vercel serverless deployment setup
 └── README.md
-
 ```
 
 ### Architectural Flow
 
-1. **Routing Layer (`*.route.ts`)**: Defines REST endpoints and attaches relevant middlewares (such as `authenticate` and `authorize`).
-2. **Controller Layer (`*.controller.ts`)**: Parses HTTP requests, validates input parameters, invokes the service layer, and shapes JSON responses.
-3. **Service Layer (`*.service.ts`)**: Contains pure business logic, calculations, date parsing, database queries, and SQL transactions.
-4. **Data Access Layer (`db.ts`)**: Manages the pooled PostgreSQL connection with SSL support via NeonDB.
+| Layer | File Pattern | Responsibility |
+| --- | --- | --- |
+| **Routing** | `*.route.ts` | Defines REST endpoints and attaches relevant middlewares (e.g. `authenticate`, `authorize`) |
+| **Controller** | `*.controller.ts` | Parses HTTP requests, validates input, invokes the service layer, shapes JSON responses |
+| **Service** | `*.service.ts` | Contains pure business logic, calculations, date parsing, database queries, and SQL transactions |
+| **Data Access** | `db.ts` | Manages the pooled PostgreSQL connection with SSL support via NeonDB |
 
 ---
 
 ## Features
 
-* **Authentication & Authorization:** Secure user registration and login using `bcrypt` for password hashing and JSON Web Tokens (JWT) for role-based access control (`admin` and `customer`).
-* **Vehicle Fleet Management:** Complete CRUD operations for vehicles with real-time status management (`available` / `booked`).
-* **Booking Workflow:**
-* Customers can reserve available vehicles and cancel bookings before the start date.
-* Admins can view all platform bookings and process vehicle returns.
-* Automated duration and total price calculation based on daily rental rates.
-* Auto-return logic to update vehicle availability when rent end dates expire.
+- **🔐 Authentication & Authorization**
+  Secure user registration and login using `bcrypt` for password hashing and JSON Web Tokens (JWT) for role-based access control (`admin` and `customer`).
 
+- **🚙 Vehicle Fleet Management**
+  Complete CRUD operations for vehicles with real-time status management (`available` / `booked`).
 
-* **User Management:** Secure profile updates for individual users and administrative management for platform users.
-* **Data Integrity:** PostgreSQL transactions ensure atomic operations during booking and vehicle state transitions.
-* **Error Handling:** Standardized error formats and global middlewares for 404 (Not Found) and 500 (Internal Server) errors.
+- **📅 Booking Workflow**
+  - Customers can reserve available vehicles and cancel bookings before the start date.
+  - Admins can view all platform bookings and process vehicle returns.
+  - Automated duration and total price calculation based on daily rental rates.
+  - Auto-return logic to update vehicle availability when rent end dates expire.
+
+- **👤 User Management**
+  Secure profile updates for individual users, plus administrative management for platform users.
+
+- **🧩 Data Integrity**
+  PostgreSQL transactions ensure atomic operations during booking and vehicle state transitions.
+
+- **⚠️ Error Handling**
+  Standardized error formats with global middlewares for 404 (Not Found) and 500 (Internal Server) errors.
 
 ---
 
@@ -131,7 +154,6 @@ CREATE TABLE bookings (
   status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'cancelled', 'returned')),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 ```
 
 ---
@@ -140,28 +162,26 @@ CREATE TABLE bookings (
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) (v18 or higher)
-* npm or yarn
-* PostgreSQL database instance or NeonDB connection URL
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm or yarn
+- A PostgreSQL database instance or NeonDB connection URL
 
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/islam37/VehicleRentalSystem.git](https://github.com/islam37/VehicleRentalSystem.git)
+git clone https://github.com/islam37/VehicleRentalSystem.git
 cd VehicleRentalSystem
-
 ```
 
 ### 2. Install Dependencies
 
 ```bash
 npm install
-
 ```
 
-### 3. Environment Variables Setup
+### 3. Configure Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the project root:
 
 ```env
 PORT=5000
@@ -169,35 +189,33 @@ DATABASE_URL=postgres://<username>:<password>@<neon_host>/<database_name>?sslmod
 JWT_SECRET=super_secret_jwt_key_12345
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
-
 ```
 
 ### 4. Run the Project
 
 ```bash
-# Start development server
+# Start the development server
 npm run dev
 
 # Build for production
 npm run build
 
-# Start production server
+# Start the production server
 npm start
-
 ```
 
 ---
 
 ## API Endpoints Reference
 
-### Authentication (`/api/v1/auth`)
+### 🔑 Authentication — `/api/v1/auth`
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
 | `POST` | `/signup` | Public | Register a new user (`admin` / `customer`) |
-| `POST` | `/signin` | Public | Sign in and retrieve JWT access token |
+| `POST` | `/signin` | Public | Sign in and retrieve a JWT access token |
 
-### Vehicles (`/api/v1/vehicles`)
+### 🚗 Vehicles — `/api/v1/vehicles`
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
@@ -205,17 +223,17 @@ npm start
 | `GET` | `/` | Public | List all vehicles |
 | `GET` | `/:vehicleId` | Public | Get single vehicle details by ID |
 | `PUT` | `/:vehicleId` | Admin | Update vehicle details |
-| `DELETE` | `/:vehicleId` | Admin | Delete vehicle (if no active bookings) |
+| `DELETE` | `/:vehicleId` | Admin | Delete a vehicle (if no active bookings) |
 
-### Bookings (`/api/v1/bookings`)
+### 📅 Bookings — `/api/v1/bookings`
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
 | `POST` | `/` | Customer / Admin | Book an available vehicle |
 | `GET` | `/` | Authenticated | View own bookings (Customer) or all bookings (Admin) |
-| `PUT` | `/:bookingId` | Authenticated | Cancel booking (Customer) or Mark returned (Admin) |
+| `PUT` | `/:bookingId` | Authenticated | Cancel booking (Customer) or mark returned (Admin) |
 
-### Users (`/api/v1/users`)
+### 👤 Users — `/api/v1/users`
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
@@ -223,6 +241,12 @@ npm start
 | `PUT` | `/:userId` | Admin / Self | Update profile information |
 | `DELETE` | `/:userId` | Admin | Delete a user (if no active bookings) |
 
-```
+---
 
-```
+## 📄 License
+
+This project is available for educational and portfolio purposes.
+
+## 👨‍💻 Author
+
+**Islam** — [GitHub](https://github.com/islam37)
